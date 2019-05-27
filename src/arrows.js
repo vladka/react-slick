@@ -6,6 +6,7 @@ import { canGoNext } from "./utils/innerSliderUtils";
 
 export class PrevArrow extends React.PureComponent {
   clickHandler(options, e) {
+    alert("creative dock");
     if (e) {
       e.preventDefault();
     }
