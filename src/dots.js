@@ -8,10 +8,10 @@ const getDotCount = spec => {
 
   if (spec.infinite) {
     dots = Math.ceil(spec.slideCount / spec.slidesToScroll);
+  } else if (slidesToScroll > 1) {
+    dots = Math.ceil((slideCount - slidesToShow) / slidesToScroll) + 1;
   } else {
-    dots =
-      Math.ceil((spec.slideCount - spec.slidesToShow) / spec.slidesToScroll) +
-      1;
+    dots = Math.ceil(slideCount);
   }
 
   return dots;
