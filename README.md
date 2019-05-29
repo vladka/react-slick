@@ -1,23 +1,24 @@
-### react-slick
+### react-slick-beyli-fork
 
-[![Backers on Open Collective](https://opencollective.com/react-slick/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/react-slick/sponsors/badge.svg)](#sponsors) [![Join the chat at https://gitter.im/akiran/react-slick](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/akiran/react-slick?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+This is fork of package https://www.npmjs.com/package/react-slick
 
-##### Carousel component built with React. It is a react port of [slick carousel](http://kenwheeler.github.io/slick/)
+### Different features:
 
-## [Documentation](http://react-slick.neostack.com)
+- adaptive height computed by all slides (not only by active one)
+- added props: flexMode <i>(boolean, when TRUE, slide is rendered with display: flex (default is inline-block))</i>
 
 ### Installation
 
 **npm**
 
 ```bash
-npm install react-slick --save
+npm install react-slick-beyli-fork --save
 ```
 
 **yarn**
 
 ```bash
-yarn add react-slick
+yarn add react-slick-beyli-fork
 ```
 
 ⚠️ Also install slick-carousel for css and font
@@ -31,8 +32,17 @@ npm install slick-carousel
 or add cdn link in your html
 
 ```html
-<link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+<link
+  rel="stylesheet"
+  type="text/css"
+  charset="UTF-8"
+  href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+/>
 ```
 
 ### [PlayGround](https://codesandbox.io/s/ppwkk5l6xx)
@@ -41,7 +51,7 @@ or add cdn link in your html
 
 ```js
 import React from "react";
-import Slider from "react-slick";
+import Slider from "react-slick-beyli-fork";
 
 class SimpleSlider extends React.Component {
   render() {
