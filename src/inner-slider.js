@@ -47,7 +47,7 @@ export class InnerSlider extends React.Component {
   adaptHeight = () => {
     if (this.props.adaptiveHeight && this.list) {
       let maxHeight = 0;
-      for (let i = 0; i < this.props.slidesToShow; i++) {
+      for (let i = 0; i < this.state.slideCount; i++) {
         const slideIndex = this.state.currentSlide + i;
         const elem = this.list.querySelector(`[data-index="${slideIndex}"]`);
         maxHeight = Math.max(getHeight(elem), maxHeight);
