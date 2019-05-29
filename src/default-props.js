@@ -51,7 +51,8 @@ let defaultProps = {
   variableWidth: false,
   vertical: false,
   waitForAnimate: true,
-  flexMode: true
+  flexMode: true,
+  slideCss: {}
 };
 
 export default defaultProps;

@@ -182,8 +182,11 @@ export default class Slider extends React.Component {
               key: 100 * i + 10 * j + k,
               tabIndex: -1,
               style: {
-                width: `${100 / settings.slidesPerRow}%`,
-                display: settings.flexMode ? "flex" : "inline-block"
+                ...{
+                  width: `${100 / settings.slidesPerRow}%`,
+                  display: settings.flexMode ? "flex" : "inline-block"
+                },
+                ...(settings.slideCss || {})
               }
             })
           );
