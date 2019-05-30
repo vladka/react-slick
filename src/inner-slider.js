@@ -48,9 +48,10 @@ export class InnerSlider extends React.Component {
     if (this.props.adaptiveHeight && this.list) {
       let maxHeight = 0;
       for (let i = 0; i < this.state.slideCount; i++) {
-        const slideIndex = this.state.currentSlide + i;
-        const elem = this.list.querySelector(`[data-index="${slideIndex}"]`);
+        //const slideIndex = this.state.currentSlide + i;
+        const elem = this.list.querySelector(`[data-index="${i}"]`);
         maxHeight = Math.max(getHeight(elem), maxHeight);
+        // console.log(`${i}: ${getHeight(elem)}`)
       }
       this.list.style.height = maxHeight + "px";
     }
@@ -719,7 +720,10 @@ export class InnerSlider extends React.Component {
     };
 
     if (this.props.unslick) {
-      listProps = { className: "slick-list" };
+      listProps = {
+        className: "slick-list unslicked",
+        style: { ...centerPaddingStyle }
+      };
       innerSliderProps = { className };
     }
     return (

@@ -74,18 +74,17 @@ export const getSwipeDirection = (touchObject, verticalSwiping = false) => {
 
 // whether or not we can go next
 export const canGoNext = spec => {
+  // console.log(`currentSlide=${spec.currentSlide} slideCount=${spec.slideCount}`);
   let canGo = true;
   if (!spec.infinite) {
-    if (spec.centerMode && spec.currentSlide >= spec.slideCount - 1) {
-      canGo = false;
-    } else if (
-      !spec.centerMode &&
-      (spec.slideCount <= spec.slidesToShow ||
-        spec.currentSlide >= spec.slideCount - spec.slidesToShow)
-    ) {
-      canGo = false;
+    if (spec.centerMode) {
+      //centerMode
+      canGo = spec.currentSlide <= spec.slideCount - spec.slidesToShow;
     }
+    //no centerMode
+    else canGo = spec.currentSlide < spec.slideCount - spec.slidesToShow;
   }
+  // console.log(canGo);
   return canGo;
 };
 
