@@ -1,6 +1,6 @@
 {
   "name": "react-slick-beyli-fork",
-  "version": "0.28.8",
+  "version": "0.30.0",
   "description": " React port of slick carousel - fork for beyli project",
   "main": "./lib",
   "files": [

@@ -74,12 +74,13 @@ export const getSwipeDirection = (touchObject, verticalSwiping = false) => {
 
 // whether or not we can go next
 export const canGoNext = spec => {
-  // console.log(`currentSlide=${spec.currentSlide} slideCount=${spec.slideCount}`);
+  //console.log(`currentSlide=${spec.currentSlide} slideCount=${spec.slideCount} slidesToShow=${spec.slidesToShow}`);
   let canGo = true;
   if (!spec.infinite) {
     if (spec.centerMode) {
+      const shift = Math.floor(spec.slidesToShow / 2);
       //centerMode
-      canGo = spec.currentSlide <= spec.slideCount - spec.slidesToShow;
+      canGo = spec.currentSlide - shift < spec.slideCount - spec.slidesToShow;
     }
     //no centerMode
     else canGo = spec.currentSlide < spec.slideCount - spec.slidesToShow;
@@ -191,11 +192,13 @@ export const slideHandler = spec => {
     nextState = { animating: false };
   } else {
     finalSlide = animationSlide;
-    if (animationSlide < 0) {
+    const shift = Math.floor(spec.slidesToShow / 2);
+    if (animationSlide < shift) {
       finalSlide = animationSlide + slideCount;
-      if (!infinite) finalSlide = 0;
-      else if (slideCount % slidesToScroll !== 0)
+      if (!infinite) finalSlide = shift;
+      else if (slideCount % slidesToScroll !== 0) {
         finalSlide = slideCount - (slideCount % slidesToScroll);
+      }
     } else if (!canGoNext(spec) && animationSlide > currentSlide) {
       animationSlide = finalSlide = currentSlide;
     } else if (centerMode && animationSlide >= slideCount) {
