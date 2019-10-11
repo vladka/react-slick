@@ -44,18 +44,22 @@ export class InnerSlider extends React.Component {
   }
   listRefHandler = ref => (this.list = ref);
   trackRefHandler = ref => (this.track = ref);
+
   adaptHeight = () => {
     if (this.props.adaptiveHeight && this.list) {
-      let maxHeight = 0;
-      for (let i = 0; i < this.state.slideCount; i++) {
-        //const slideIndex = this.state.currentSlide + i;
-        const elem = this.list.querySelector(`[data-index="${i}"]`);
-        maxHeight = Math.max(getHeight(elem), maxHeight);
-        // console.log(`${i}: ${getHeight(elem)}`)
-      }
-      this.list.style.height = maxHeight + "px";
+      this.list.style.height = "auto";
+      const { list, state } = this;
+      setTimeout(() => {
+        let maxHeight = 0;
+        for (let i = 0; i < state.slideCount; i++) {
+          const elem = list.querySelector(`[data-index="${i}"]`);
+          maxHeight = Math.max(getHeight(elem), maxHeight);
+        }
+        list.style.height = maxHeight + "px";
+      }, 0);
     }
   };
+
   componentWillMount = () => {
     this.ssrInit();
     this.props.onInit && this.props.onInit();
@@ -74,10 +78,10 @@ export class InnerSlider extends React.Component {
       }
     }
   };
+
   componentDidMount = () => {
     let spec = { listRef: this.list, trackRef: this.track, ...this.props };
     this.updateState(spec, true, () => {
-      this.adaptHeight();
       this.props.autoplay && this.autoPlay("update");
     });
     if (this.props.lazyLoad === "progressive") {
