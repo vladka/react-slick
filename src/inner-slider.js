@@ -44,19 +44,36 @@ export class InnerSlider extends React.Component {
   }
   listRefHandler = ref => (this.list = ref);
   trackRefHandler = ref => (this.track = ref);
-
+  adaptedHeightTimeStamp = 0;
+  adaptedHeightMovingBypass = false;
   adaptHeight = () => {
     if (this.props.adaptiveHeight && this.list) {
-      this.list.style.height = "auto";
-      const { list, state } = this;
+      const self = this;
+      this.adaptedHeightTimeStamp = Number(new Date());
+      const {
+        list,
+        state,
+        adaptedHeightTimeStamp: lastAdaptHeight,
+        adaptedHeightMovingBypass
+      } = this;
+      if (adaptedHeightMovingBypass) return;
       setTimeout(() => {
-        let maxHeight = 0;
-        for (let i = 0; i < state.slideCount; i++) {
-          const elem = list.querySelector(`[data-index="${i}"]`);
-          maxHeight = Math.max(getHeight(elem), maxHeight);
+        if (adaptedHeightMovingBypass) {
+          return;
         }
-        list.style.height = maxHeight + "px";
-      }, 0);
+        if (lastAdaptHeight !== self.adaptedHeightTimeStamp) {
+          return;
+        }
+        self.list.style.height = "auto";
+        setTimeout(() => {
+          let maxHeight = 0;
+          for (let i = 0; i < state.slideCount; i++) {
+            const elem = list.querySelector(`[data-index="${i}"]`);
+            maxHeight = Math.max(getHeight(elem), maxHeight);
+          }
+          list.style.height = maxHeight + "px";
+        }, 0);
+      }, 500);
     }
   };
 
@@ -80,7 +97,11 @@ export class InnerSlider extends React.Component {
   };
 
   componentDidMount = () => {
-    let spec = { listRef: this.list, trackRef: this.track, ...this.props };
+    let spec = {
+      listRef: this.list,
+      trackRef: this.track,
+      ...this.props
+    };
     this.updateState(spec, true, () => {
       this.props.autoplay && this.autoPlay("update");
     });
@@ -175,7 +196,7 @@ export class InnerSlider extends React.Component {
       }
     });
   };
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps, prevState) => {
     this.checkImagesLoad();
     this.props.onReInit && this.props.onReInit();
     if (this.props.lazyLoad) {
@@ -192,9 +213,6 @@ export class InnerSlider extends React.Component {
         }
       }
     }
-    // if (this.props.onLazyLoad) {
-    //   this.props.onLazyLoad([leftMostSlide])
-    // }
     this.adaptHeight();
   };
   onWindowResized = setTrackStyle => {
@@ -223,7 +241,11 @@ export class InnerSlider extends React.Component {
   };
   updateState = (spec, setTrackStyle, callback) => {
     let updatedState = initializedState(spec);
-    spec = { ...spec, ...updatedState, slideIndex: updatedState.currentSlide };
+    spec = {
+      ...spec,
+      ...updatedState,
+      slideIndex: updatedState.currentSlide
+    };
     let targetLeft = getTrackLeft(spec);
     spec = { ...spec, left: targetLeft };
     let trackStyle = getTrackCSS(spec);
@@ -282,7 +304,11 @@ export class InnerSlider extends React.Component {
       return;
     }
     let childrenCount = React.Children.count(this.props.children);
-    const spec = { ...this.props, ...this.state, slideCount: childrenCount };
+    const spec = {
+      ...this.props,
+      ...this.state,
+      slideCount: childrenCount
+    };
     let slideCount = getPreClones(spec) + getPostClones(spec) + childrenCount;
     let trackWidth = (100 / this.props.slidesToShow) * slideCount;
     let slideWidth = 100 / slideCount;
@@ -375,6 +401,8 @@ export class InnerSlider extends React.Component {
     }
   };
   slideHandler = (index, dontAnimate = false) => {
+    this.adaptedHeightTimeStamp = Number(new Date());
+    this.adaptedHeightMovingBypass = true;
     const {
       asNavFor,
       beforeChange,
@@ -410,6 +438,9 @@ export class InnerSlider extends React.Component {
           );
           afterChange && afterChange(state.currentSlide);
           delete this.animationEndCallback;
+          setTimeout(() => {
+            this.adaptedHeightMovingBypass = false;
+          }, 600);
         });
       }, speed);
     });
