@@ -64,7 +64,8 @@ export class InnerSlider extends React.Component {
         if (lastAdaptHeight !== self.adaptedHeightTimeStamp) {
           return;
         }
-        self.list.style.height = "auto";
+
+        list.style.height = "auto";
         setTimeout(() => {
           let maxHeight = 0;
           for (let i = 0; i < state.slideCount; i++) {
